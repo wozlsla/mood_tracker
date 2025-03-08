@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mood_tracker/repos/auth_repo.dart';
 import 'package:mood_tracker/view_models/user_vm.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -15,7 +17,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     return ref
         .watch(userProvider)
         .when(
-          data: (data) => Scaffold(body: Center(child: Text(data.userName))),
+          data:
+              (data) => Scaffold(
+                body: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      ref.read(authRepo).signOut();
+                      context.go("/");
+                    },
+                    style: TextButton.styleFrom(
+                      side: BorderSide(color: Colors.grey),
+                    ),
+                    child: Text(
+                      "Name: ${data.userName}\nLog Out",
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ),
+                ),
+              ),
           error: (error, stackTrace) => Center(child: Text(error.toString())),
           loading: () => Center(child: CircularProgressIndicator.adaptive()),
         );

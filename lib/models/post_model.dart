@@ -18,7 +18,7 @@ class PostModel {
   PostModel.fromJson(Map<String, dynamic> json)
     : uid = json["userId"],
       body = json["body"],
-      emotion = json["emotion"],
+      emotion = Emotion.formKey((json["emotion"] ??= "")) ?? Emotion.excellent,
       createdAt = json["createdAt"];
 
   // to db
