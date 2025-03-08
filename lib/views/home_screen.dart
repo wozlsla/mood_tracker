@@ -4,9 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/repos/auth_repo.dart';
 
 class HomeScreen extends ConsumerWidget {
-  static const String routeName = "home";
-  static const String routeURL = "/home";
-
   const HomeScreen({super.key});
 
   @override

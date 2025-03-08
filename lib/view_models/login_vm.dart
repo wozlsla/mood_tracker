@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/repos/auth_repo.dart';
+import 'package:mood_tracker/router_constant.dart';
 import 'package:mood_tracker/utils.dart';
-import 'package:mood_tracker/views/home_screen.dart';
 
 class LogInViewModel extends AsyncNotifier<void> {
   late final AuthenticationRepository _repository;
@@ -40,7 +40,7 @@ class LogInViewModel extends AsyncNotifier<void> {
           );
         }
       } else {
-        context.goNamed(HomeScreen.routeName);
+        context.goNamed(RouteName.home);
       }
     }
   }

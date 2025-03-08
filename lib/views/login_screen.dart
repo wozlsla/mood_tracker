@@ -5,9 +5,6 @@ import 'package:mood_tracker/view_models/login_vm.dart';
 import 'package:mood_tracker/widgets/form_button.dart';
 
 class LogInScreen extends ConsumerStatefulWidget {
-  static const routeName = "login";
-  static const routeURL = "/login";
-
   const LogInScreen({super.key});
 
   @override

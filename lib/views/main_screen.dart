@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/gaps.dart';
+import 'package:mood_tracker/router_constant.dart';
 import 'package:mood_tracker/utils.dart';
-import 'package:mood_tracker/views/login_screen.dart';
-import 'package:mood_tracker/views/signup_screen.dart';
 import 'dart:async';
 
 import 'package:mood_tracker/widgets/form_button.dart';
 
 class MainScreen extends StatefulWidget {
-  static const String routeName = "main";
-  static const String routeURL = "/";
-
   const MainScreen({super.key});
 
   @override
@@ -61,11 +57,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _onLogInTap() {
-    context.pushNamed(LogInScreen.routeName);
+    context.pushNamed(RouteName.login);
   }
 
   void _onSignUpTap() {
-    context.pushNamed(SignUpScreen.routeName);
+    context.pushNamed(RouteName.signup);
   }
 
   @override

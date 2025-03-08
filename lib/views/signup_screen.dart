@@ -5,9 +5,6 @@ import 'package:mood_tracker/view_models/signup_vm.dart';
 import 'package:mood_tracker/widgets/form_button.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
-  static const routeName = "signup";
-  static const routeURL = "/signup";
-
   const SignUpScreen({super.key});
 
   @override
