@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mood_tracker/constants/gaps.dart';
+import 'package:mood_tracker/view_models/signup_vm.dart';
 import 'package:mood_tracker/widgets/form_button.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   static const routeName = "signup";
   static const routeURL = "/signup";
 
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Map<String, String> formData = {};
 
   void _onSubmitTap() {
-    // print("Form Data: $formData");
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        setState(() {});
         _formKey.currentState!.save();
+        ref
+            .read(signUpProvider.notifier)
+            .signUp(
+              email: formData["email"]!,
+              password: formData["password"]!,
+              context: context,
+            );
       }
     }
   }
@@ -71,7 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                           onSaved: (newValue) {
                             if (newValue != null) {
-                              formData["user"] = newValue;
+                              formData["email"] = newValue;
                             }
                           },
                           decoration: InputDecoration(
@@ -156,7 +163,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       GestureDetector(
                         onTap: _onSubmitTap,
-                        child: FormButton(text: "Submit", filled: true),
+                        child: FormButton(
+                          text: "Submit",
+                          disabled: ref.watch(signUpProvider).isLoading,
+                        ),
                       ),
                       Gaps.v4,
                     ],

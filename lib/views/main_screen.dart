@@ -121,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   GestureDetector(
                     onTap: _onSignUpTap,
-                    child: FormButton(text: "Sign up", filled: true),
+                    child: FormButton(text: "Sign up"),
                   ),
                   Gaps.v12,
                   GestureDetector(
