@@ -41,6 +41,14 @@ class PostViewModel extends StreamNotifier<List<PostModel>> {
       throw ("todo");
     });
   }
+
+  Future<void> deletePost(String postId) async {
+    try {
+      await ref.read(postRepo).deletePost(postId);
+    } catch (e) {
+      print("Error deleting post: $e");
+    }
+  }
 }
 
 final postProvider = StreamNotifierProvider<PostViewModel, List<PostModel>>(

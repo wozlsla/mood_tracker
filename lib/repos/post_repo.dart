@@ -30,8 +30,17 @@ class PostRepository {
         .snapshots()
         .map(
           (event) =>
-              event.docs.map((doc) => PostModel.fromJson(doc.data())).toList(),
+              event.docs
+                  .map(
+                    (doc) =>
+                        PostModel.fromJson(json: doc.data(), postId: doc.id),
+                  )
+                  .toList(),
         );
+  }
+
+  Future<void> deletePost(String postId) async {
+    await _db.collection("posts").doc(postId).delete();
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mood_tracker/constants/gaps.dart';
@@ -23,13 +24,41 @@ class HomeScreen extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   return Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(14.0),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(4.0),
+                      GestureDetector(
+                        onLongPress: () {
+                          showCupertinoDialog(
+                            context: context,
+                            builder:
+                                (context) => CupertinoAlertDialog(
+                                  title: Text("Delete"),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      onPressed: () => Navigator.pop(context),
+                                      isDefaultAction: true,
+                                      child: const Text("Cancle"),
+                                    ),
+                                    CupertinoDialogAction(
+                                      onPressed: () {
+                                        ref
+                                            .read(postProvider.notifier)
+                                            .deletePost(data[index].postId);
+                                        Navigator.pop(context);
+                                      },
+                                      isDestructiveAction: true,
+                                      child: Text("OK"),
+                                    ),
+                                  ],
+                                ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(14.0),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Text(data[index].body),
                         ),
-                        child: Text(data[index].body),
                       ),
                     ],
                   );
