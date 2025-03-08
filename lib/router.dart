@@ -8,7 +8,7 @@ import 'package:mood_tracker/views/login_screen.dart';
 import 'package:mood_tracker/views/main_screen.dart';
 import 'package:mood_tracker/views/profile_screen.dart';
 import 'package:mood_tracker/views/signup_screen.dart';
-import 'package:mood_tracker/views/write_screen.dart';
+import 'package:mood_tracker/views/post_screen.dart';
 import 'package:mood_tracker/widgets/navigation_bar.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -63,9 +63,9 @@ final routerProvider = Provider((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                name: RouteName.write,
-                path: RouteURL.write,
-                builder: (context, state) => WriteScreen(),
+                name: RouteName.post,
+                path: RouteURL.post,
+                builder: (context, state) => PostScreen(),
               ),
             ],
           ),
