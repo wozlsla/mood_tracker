@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mood_tracker/view_models/user_vm.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return ref
+        .watch(userProvider)
+        .when(
+          data: (data) => Scaffold(body: Center(child: Text(data.userName))),
+          error: (error, stackTrace) => Center(child: Text(error.toString())),
+          loading: () => Center(child: CircularProgressIndicator.adaptive()),
+        );
   }
 }

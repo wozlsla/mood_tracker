@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/repos/auth_repo.dart';
 import 'package:mood_tracker/router_constant.dart';
 import 'package:mood_tracker/utils.dart';
+import 'package:mood_tracker/view_models/user_vm.dart';
 
 class SignUpViewModel extends AsyncNotifier<void> {
   late final AuthenticationRepository _repository;
@@ -23,9 +24,14 @@ class SignUpViewModel extends AsyncNotifier<void> {
   }) async {
     state = AsyncValue.loading();
 
-    state = await AsyncValue.guard(
-      () async => await _repository.emailSignUp(email, password),
-    );
+    final users = ref.read(userProvider.notifier);
+
+    state = await AsyncValue.guard(() async {
+      // when user created in auth db
+      final userCredential = await _repository.emailSignUp(email, password);
+
+      await users.createProfile(userCredential); // to save db
+    });
 
     if (context.mounted) {
       if (state.hasError) {
