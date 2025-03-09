@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mood_tracker/models/post_model.dart';
 import 'package:mood_tracker/repos/auth_repo.dart';
 import 'package:mood_tracker/repos/post_repo.dart';
-import 'package:mood_tracker/widgets/emotion.dart';
+import 'package:mood_tracker/models/emotion.dart';
 
 class PostViewModel extends StreamNotifier<List<PostModel>> {
   // late final UserRepository _repository;

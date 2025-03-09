@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mood_tracker/models/post_model.dart';
-import 'package:mood_tracker/widgets/emotion.dart';
+import 'package:mood_tracker/models/emotion.dart';
 
 class PostRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;

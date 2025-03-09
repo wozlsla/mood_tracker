@@ -52,12 +52,23 @@ class HomeScreen extends ConsumerWidget {
                           );
                         },
                         child: Container(
+                          width: 200,
+                          height: 100,
                           padding: const EdgeInsets.all(14.0),
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.primary,
                             borderRadius: BorderRadius.circular(4.0),
                           ),
-                          child: Text(data[index].body),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(data[index].emotion.icon),
+                              Text(
+                                data[index].body,
+                                style: TextStyle(fontSize: 18.0),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

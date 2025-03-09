@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/gaps.dart';
-import 'package:mood_tracker/router_constant.dart';
 import 'package:mood_tracker/utils.dart';
 import 'package:mood_tracker/view_models/post_vm.dart';
-import 'package:mood_tracker/widgets/emotion.dart';
+import 'package:mood_tracker/models/emotion.dart';
 
 class PostScreen extends ConsumerStatefulWidget {
   const PostScreen({super.key});
@@ -24,10 +23,9 @@ class _PostScreenState extends ConsumerState<PostScreen> {
       await ref
           .read(postProvider.notifier)
           .uploadPost(body: _text, emotion: _selectedEmotion);
-
-      if (mounted) {
-        context.goNamed(RouteName.home);
-      }
+    }
+    if (mounted) {
+      context.pop();
     }
   }
 

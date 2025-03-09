@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mood_tracker/widgets/emotion.dart';
+import 'package:mood_tracker/models/emotion.dart';
 
 class PostModel {
   final String uid;
