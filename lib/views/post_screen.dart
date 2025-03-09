@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/gaps.dart';
+import 'package:mood_tracker/repos/gpt_repo.dart';
 import 'package:mood_tracker/utils.dart';
 import 'package:mood_tracker/view_models/post_vm.dart';
 import 'package:mood_tracker/models/emotion.dart';
@@ -62,6 +64,28 @@ class _PostScreenState extends ConsumerState<PostScreen> {
             "New post",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                onPressed: () async {
+                  final GptRepository gptRepo = GptRepository();
+
+                  try {
+                    String sentence = await gptRepo.getSentence(
+                      _selectedEmotion,
+                    );
+                    setState(() {
+                      _textController.text = sentence;
+                    });
+                  } catch (e) {
+                    print("문장 추천 실패: $e");
+                  }
+                },
+                icon: FaIcon(FontAwesomeIcons.paintbrush),
+              ),
+            ),
+          ],
           backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(0),

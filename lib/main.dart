@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mood_tracker/firebase_options.dart';
@@ -9,8 +10,10 @@ import 'package:mood_tracker/utils.dart';
 void main() async {
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); // Flutter 초기화
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await dotenv.load(); // .env 파일 로드
 
   runApp(ProviderScope(child: MyApp()));
 }

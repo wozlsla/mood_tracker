@@ -52,8 +52,9 @@ class HomeScreen extends ConsumerWidget {
                           );
                         },
                         child: Container(
-                          width: 200,
-                          height: 100,
+                          constraints: BoxConstraints(
+                            minHeight: 80,
+                          ), // 최소 높이 설정
                           padding: const EdgeInsets.all(14.0),
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.primary,
@@ -62,7 +63,8 @@ class HomeScreen extends ConsumerWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(data[index].emotion.icon),
+                              Icon(data[index].emotion.icon, size: 20.0),
+                              Gaps.v5,
                               Text(
                                 data[index].body,
                                 style: TextStyle(fontSize: 18.0),
