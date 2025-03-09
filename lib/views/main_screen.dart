@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final List<String> phrases = ["If you want,", "I'll be with you"];
+  final List<String> phrases = ["Write days,", "Embrace your story."];
   int phraseIndex = 0;
   int charIndex = 0;
   String displayText = "";
@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _startTypingEffect() {
-    _timer = Timer.periodic(Duration(milliseconds: 600), (timer) {
+    _timer = Timer.periodic(Duration(milliseconds: 90), (timer) {
       if (!mounted) return;
       setState(() {
         if (!deleting) {

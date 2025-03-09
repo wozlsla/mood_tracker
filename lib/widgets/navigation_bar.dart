@@ -41,11 +41,50 @@ class CustomNavigationBar extends StatelessWidget {
     final isDark = isDarkMode(context);
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomAppBar(
+        color: isDark ? Colors.grey.shade900 : Colors.white,
+        shape: const CircularNotchedRectangle(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildNavItem(context, FontAwesomeIcons.house, 0),
+              _buildNavItem(context, FontAwesomeIcons.penToSquare, 1),
+              _buildNavItem(context, FontAwesomeIcons.user, 2),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(BuildContext context, IconData icon, int index) {
+    final isSelected = index == navigationShell.currentIndex;
+    final isDark = isDarkMode(context);
+
+    return IconButton(
+      icon: FaIcon(
+        icon,
+        color:
+            isSelected
+                ? (isDark ? Colors.white : Colors.black)
+                : (isDark ? Colors.grey : Colors.black54),
+      ),
+      onPressed: () => _onTap(context, index),
+    );
+  }
+}
+
+
+
+/*
+
+BottomNavigationBar(
         onTap: (index) => _onTap(context, index),
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedItemColor: isDark ? Colors.white : Colors.black,
+        selectedItemColor: isDark ? Colors.grey : Colors.black54,
         unselectedItemColor: isDark ? Colors.grey : Colors.black54,
         items: [
           BottomNavigationBarItem(
@@ -62,7 +101,4 @@ class CustomNavigationBar extends StatelessWidget {
           ),
         ],
         backgroundColor: isDark ? Colors.grey.shade900 : null,
-      ),
-    );
-  }
-}
+      ), */

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,8 +19,20 @@ class PostScreen extends ConsumerStatefulWidget {
 
 class _PostScreenState extends ConsumerState<PostScreen> {
   final TextEditingController _textController = TextEditingController();
+  final GptRepository gptRepo = GptRepository();
   String _text = "";
-  Emotion _selectedEmotion = Emotion.normal; // 기본 감정
+  Emotion _selectedEmotion = Emotion.normal;
+
+  Future<void> _generateSentence() async {
+    try {
+      String sentence = await gptRepo.getSentence(_selectedEmotion);
+      setState(() {
+        _textController.text = sentence;
+      });
+    } catch (e, stackTrace) {
+      log("Error: $e", error: e, stackTrace: stackTrace);
+    }
+  }
 
   void _onPostTap(WidgetRef ref) async {
     if (_text.isNotEmpty) {
@@ -68,20 +82,7 @@ class _PostScreenState extends ConsumerState<PostScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: IconButton(
-                onPressed: () async {
-                  final GptRepository gptRepo = GptRepository();
-
-                  try {
-                    String sentence = await gptRepo.getSentence(
-                      _selectedEmotion,
-                    );
-                    setState(() {
-                      _textController.text = sentence;
-                    });
-                  } catch (e) {
-                    print("문장 추천 실패: $e");
-                  }
-                },
+                onPressed: _generateSentence,
                 icon: FaIcon(FontAwesomeIcons.paintbrush),
               ),
             ),
@@ -97,74 +98,80 @@ class _PostScreenState extends ConsumerState<PostScreen> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 14.0, left: 8.0, right: 20.0),
+          padding: const EdgeInsets.only(top: 16.0, left: 8.0, right: 20.0),
           child: Row(
             children: [
               Expanded(
                 flex: 1,
                 child: Align(
                   alignment: Alignment.topCenter,
-                  child: CircleAvatar(),
+                  child: CircleAvatar(
+                    radius: 24.0,
+                    foregroundImage: NetworkImage(profileImage),
+                  ),
                 ),
               ),
               Expanded(
                 flex: 6,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "username",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextField(
-                      controller: _textController,
-                      autocorrect: false,
-                      maxLines: null, // 자동 줄바꿈 활성화
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                        hintText: "What's happening?",
-                        hintStyle: TextStyle(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "anonymous",
+                        style: TextStyle(
                           fontSize: 16.0,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.bold,
                         ),
-                        border: InputBorder.none,
                       ),
-                    ),
-                    Gaps.v10,
-                    Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 6.0),
-                          child: Wrap(
-                            spacing: 12.0,
-                            children:
-                                Emotion.values
-                                    .map(
-                                      (emotion) => GestureDetector(
-                                        onTap:
-                                            () => setState(() {
-                                              _selectedEmotion = emotion;
-                                            }),
-                                        child: Icon(
-                                          emotion.icon,
-                                          color:
-                                              _selectedEmotion == emotion
-                                                  ? emotion.tintColor
-                                                  : Colors.grey.shade400,
-                                          size: 28.0,
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
+                      TextField(
+                        controller: _textController,
+                        autocorrect: false,
+                        maxLines: null, // 자동 줄바꿈 활성화
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                          hintText: "What's happening?",
+                          hintStyle: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey.shade500,
                           ),
+                          border: InputBorder.none,
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      Gaps.v10,
+                      Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            child: Wrap(
+                              spacing: 12.0,
+                              children:
+                                  Emotion.values
+                                      .map(
+                                        (emotion) => GestureDetector(
+                                          onTap:
+                                              () => setState(() {
+                                                _selectedEmotion = emotion;
+                                              }),
+                                          child: Icon(
+                                            emotion.icon,
+                                            color:
+                                                _selectedEmotion == emotion
+                                                    ? emotion.tintColor
+                                                    : Colors.grey.shade400,
+                                            size: 28.0,
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

@@ -17,14 +17,14 @@ class PostModel {
   });
 
   // from db
-  PostModel.fromJson({
-    required Map<String, dynamic> json,
-    required String postId,
-  }) : uid = json["userId"],
-       postId = postId,
-       body = json["body"],
-       emotion = Emotion.formKey((json["emotion"] ??= "")) ?? Emotion.excellent,
-       createdAt = json["createdAt"];
+  PostModel.fromJson({required Map<String, dynamic> json, required this.postId})
+    : uid = json["userId"],
+      body = json["body"],
+      emotion = Emotion.formKey((json["emotion"] ??= "")) ?? Emotion.normal,
+      createdAt =
+          json["createdAt"] != null
+              ? (json["createdAt"] as Timestamp)
+              : Timestamp.now();
 
   // to db
   Map<String, Object?> toJson() => {
@@ -33,4 +33,20 @@ class PostModel {
     "emotion": emotion.key,
     "createdAt": createdAt,
   };
+
+  // get time
+  String get timeAgo {
+    final DateTime date = createdAt.toDate();
+    final Duration difference = DateTime.now().difference(date);
+
+    if (difference.inSeconds < 60) {
+      return "${difference.inSeconds} s";
+    } else if (difference.inMinutes < 60) {
+      return "${difference.inMinutes} m";
+    } else if (difference.inHours < 24) {
+      return "${difference.inHours} h ago";
+    } else {
+      return "${difference.inDays} d ago";
+    }
+  }
 }

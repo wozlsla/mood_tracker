@@ -35,8 +35,10 @@ class GptRepository {
     final Map<String, dynamic> responseData = jsonDecode(decodedBody);
 
     if (response.statusCode == 200) {
-      return responseData["choices"][0]["message"]["content"] ??
+      String generatedSentence =
+          responseData["choices"][0]["message"]["content"] ??
           "Can't get a sentence";
+      return '"$generatedSentence"';
     } else {
       throw Exception("Get Sentence Failed: ${response.body}");
     }

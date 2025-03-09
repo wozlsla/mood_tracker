@@ -12,3 +12,6 @@ void showFirebaseErrorSnack(BuildContext context, Object? error) {
     ),
   );
 }
+
+String profileImage =
+    "https://github.com/user-attachments/assets/129fec99-e2fa-4519-98ed-24cd0c51a6ea";

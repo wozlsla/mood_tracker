@@ -47,7 +47,7 @@ class SignUpViewModel extends AsyncNotifier<void> {
           );
         }
       } else {
-        context.goNamed(RouteName.home);
+        context.goNamed(RouteName.main);
       }
     }
   }
